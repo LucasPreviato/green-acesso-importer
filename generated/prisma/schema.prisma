@@ -20,5 +20,21 @@ model Lote {
   ativo    Boolean  @default(true)
   criadoEm DateTime @default(now())
 
+  Boleto Boleto[]
+
   @@map("lotes")
+}
+
+model Boleto {
+  id             Int      @id @default(autoincrement())
+  nomeSacado     String   @map("nome_sacado")
+  idLote         Int      @map("id_lote")
+  valor          Decimal  @db.Decimal(10, 2)
+  linhaDigitavel String   @map("linha_digitavel")
+  ativo          Boolean  @default(true)
+  criadoEm       DateTime @default(now()) @map("criado_em")
+
+  lote Lote @relation(fields: [idLote], references: [id])
+
+  @@map("boletos")
 }

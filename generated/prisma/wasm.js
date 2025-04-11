@@ -124,6 +124,16 @@ exports.Prisma.LoteScalarFieldEnum = {
   criadoEm: 'criadoEm'
 };
 
+exports.Prisma.BoletoScalarFieldEnum = {
+  id: 'id',
+  nomeSacado: 'nomeSacado',
+  idLote: 'idLote',
+  valor: 'valor',
+  linhaDigitavel: 'linhaDigitavel',
+  ativo: 'ativo',
+  criadoEm: 'criadoEm'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -133,9 +143,15 @@ exports.Prisma.LoteOrderByRelevanceFieldEnum = {
   nome: 'nome'
 };
 
+exports.Prisma.BoletoOrderByRelevanceFieldEnum = {
+  nomeSacado: 'nomeSacado',
+  linhaDigitavel: 'linhaDigitavel'
+};
+
 
 exports.Prisma.ModelName = {
-  Lote: 'Lote'
+  Lote: 'Lote',
+  Boleto: 'Boleto'
 };
 
 /**

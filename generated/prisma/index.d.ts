@@ -18,6 +18,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type Lote = $Result.DefaultSelection<Prisma.$LotePayload>
+/**
+ * Model Boleto
+ * 
+ */
+export type Boleto = $Result.DefaultSelection<Prisma.$BoletoPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -153,6 +158,16 @@ export class PrismaClient<
     * ```
     */
   get lote(): Prisma.LoteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.boleto`: Exposes CRUD operations for the **Boleto** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Boletos
+    * const boletos = await prisma.boleto.findMany()
+    * ```
+    */
+  get boleto(): Prisma.BoletoDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -593,7 +608,8 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    Lote: 'Lote'
+    Lote: 'Lote',
+    Boleto: 'Boleto'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -612,7 +628,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "lote"
+      modelProps: "lote" | "boleto"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -679,6 +695,72 @@ export namespace Prisma {
           count: {
             args: Prisma.LoteCountArgs<ExtArgs>
             result: $Utils.Optional<LoteCountAggregateOutputType> | number
+          }
+        }
+      }
+      Boleto: {
+        payload: Prisma.$BoletoPayload<ExtArgs>
+        fields: Prisma.BoletoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BoletoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BoletoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletoPayload>
+          }
+          findFirst: {
+            args: Prisma.BoletoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BoletoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletoPayload>
+          }
+          findMany: {
+            args: Prisma.BoletoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletoPayload>[]
+          }
+          create: {
+            args: Prisma.BoletoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletoPayload>
+          }
+          createMany: {
+            args: Prisma.BoletoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.BoletoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletoPayload>
+          }
+          update: {
+            args: Prisma.BoletoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletoPayload>
+          }
+          deleteMany: {
+            args: Prisma.BoletoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BoletoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BoletoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoletoPayload>
+          }
+          aggregate: {
+            args: Prisma.BoletoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBoleto>
+          }
+          groupBy: {
+            args: Prisma.BoletoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BoletoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BoletoCountArgs<ExtArgs>
+            result: $Utils.Optional<BoletoCountAggregateOutputType> | number
           }
         }
       }
@@ -767,6 +849,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     lote?: LoteOmit
+    boleto?: BoletoOmit
   }
 
   /* Types for Logging */
@@ -855,6 +938,36 @@ export namespace Prisma {
    * Count Types
    */
 
+
+  /**
+   * Count Type LoteCountOutputType
+   */
+
+  export type LoteCountOutputType = {
+    Boleto: number
+  }
+
+  export type LoteCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Boleto?: boolean | LoteCountOutputTypeCountBoletoArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LoteCountOutputType without action
+   */
+  export type LoteCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoteCountOutputType
+     */
+    select?: LoteCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LoteCountOutputType without action
+   */
+  export type LoteCountOutputTypeCountBoletoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BoletoWhereInput
+  }
 
 
   /**
@@ -1051,6 +1164,8 @@ export namespace Prisma {
     nome?: boolean
     ativo?: boolean
     criadoEm?: boolean
+    Boleto?: boolean | Lote$BoletoArgs<ExtArgs>
+    _count?: boolean | LoteCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lote"]>
 
 
@@ -1063,10 +1178,16 @@ export namespace Prisma {
   }
 
   export type LoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "ativo" | "criadoEm", ExtArgs["result"]["lote"]>
+  export type LoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Boleto?: boolean | Lote$BoletoArgs<ExtArgs>
+    _count?: boolean | LoteCountOutputTypeDefaultArgs<ExtArgs>
+  }
 
   export type $LotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Lote"
-    objects: {}
+    objects: {
+      Boleto: Prisma.$BoletoPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       nome: string
@@ -1412,6 +1533,7 @@ export namespace Prisma {
    */
   export interface Prisma__LoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    Boleto<T extends Lote$BoletoArgs<ExtArgs> = {}>(args?: Subset<T, Lote$BoletoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BoletoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1462,6 +1584,10 @@ export namespace Prisma {
      */
     omit?: LoteOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoteInclude<ExtArgs> | null
+    /**
      * Filter, which Lote to fetch.
      */
     where: LoteWhereUniqueInput
@@ -1480,6 +1606,10 @@ export namespace Prisma {
      */
     omit?: LoteOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoteInclude<ExtArgs> | null
+    /**
      * Filter, which Lote to fetch.
      */
     where: LoteWhereUniqueInput
@@ -1497,6 +1627,10 @@ export namespace Prisma {
      * Omit specific fields from the Lote
      */
     omit?: LoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoteInclude<ExtArgs> | null
     /**
      * Filter, which Lote to fetch.
      */
@@ -1546,6 +1680,10 @@ export namespace Prisma {
      */
     omit?: LoteOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoteInclude<ExtArgs> | null
+    /**
      * Filter, which Lote to fetch.
      */
     where?: LoteWhereInput
@@ -1594,6 +1732,10 @@ export namespace Prisma {
      */
     omit?: LoteOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoteInclude<ExtArgs> | null
+    /**
      * Filter, which Lotes to fetch.
      */
     where?: LoteWhereInput
@@ -1637,6 +1779,10 @@ export namespace Prisma {
      */
     omit?: LoteOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoteInclude<ExtArgs> | null
+    /**
      * The data needed to create a Lote.
      */
     data: XOR<LoteCreateInput, LoteUncheckedCreateInput>
@@ -1665,6 +1811,10 @@ export namespace Prisma {
      * Omit specific fields from the Lote
      */
     omit?: LoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoteInclude<ExtArgs> | null
     /**
      * The data needed to update a Lote.
      */
@@ -1706,6 +1856,10 @@ export namespace Prisma {
      */
     omit?: LoteOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoteInclude<ExtArgs> | null
+    /**
      * The filter to search for the Lote to update in case it exists.
      */
     where: LoteWhereUniqueInput
@@ -1732,6 +1886,10 @@ export namespace Prisma {
      */
     omit?: LoteOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoteInclude<ExtArgs> | null
+    /**
      * Filter which Lote to delete.
      */
     where: LoteWhereUniqueInput
@@ -1752,6 +1910,30 @@ export namespace Prisma {
   }
 
   /**
+   * Lote.Boleto
+   */
+  export type Lote$BoletoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Boleto
+     */
+    select?: BoletoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Boleto
+     */
+    omit?: BoletoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletoInclude<ExtArgs> | null
+    where?: BoletoWhereInput
+    orderBy?: BoletoOrderByWithRelationInput | BoletoOrderByWithRelationInput[]
+    cursor?: BoletoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BoletoScalarFieldEnum | BoletoScalarFieldEnum[]
+  }
+
+  /**
    * Lote without action
    */
   export type LoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1763,6 +1945,1003 @@ export namespace Prisma {
      * Omit specific fields from the Lote
      */
     omit?: LoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoteInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Boleto
+   */
+
+  export type AggregateBoleto = {
+    _count: BoletoCountAggregateOutputType | null
+    _avg: BoletoAvgAggregateOutputType | null
+    _sum: BoletoSumAggregateOutputType | null
+    _min: BoletoMinAggregateOutputType | null
+    _max: BoletoMaxAggregateOutputType | null
+  }
+
+  export type BoletoAvgAggregateOutputType = {
+    id: number | null
+    idLote: number | null
+    valor: Decimal | null
+  }
+
+  export type BoletoSumAggregateOutputType = {
+    id: number | null
+    idLote: number | null
+    valor: Decimal | null
+  }
+
+  export type BoletoMinAggregateOutputType = {
+    id: number | null
+    nomeSacado: string | null
+    idLote: number | null
+    valor: Decimal | null
+    linhaDigitavel: string | null
+    ativo: boolean | null
+    criadoEm: Date | null
+  }
+
+  export type BoletoMaxAggregateOutputType = {
+    id: number | null
+    nomeSacado: string | null
+    idLote: number | null
+    valor: Decimal | null
+    linhaDigitavel: string | null
+    ativo: boolean | null
+    criadoEm: Date | null
+  }
+
+  export type BoletoCountAggregateOutputType = {
+    id: number
+    nomeSacado: number
+    idLote: number
+    valor: number
+    linhaDigitavel: number
+    ativo: number
+    criadoEm: number
+    _all: number
+  }
+
+
+  export type BoletoAvgAggregateInputType = {
+    id?: true
+    idLote?: true
+    valor?: true
+  }
+
+  export type BoletoSumAggregateInputType = {
+    id?: true
+    idLote?: true
+    valor?: true
+  }
+
+  export type BoletoMinAggregateInputType = {
+    id?: true
+    nomeSacado?: true
+    idLote?: true
+    valor?: true
+    linhaDigitavel?: true
+    ativo?: true
+    criadoEm?: true
+  }
+
+  export type BoletoMaxAggregateInputType = {
+    id?: true
+    nomeSacado?: true
+    idLote?: true
+    valor?: true
+    linhaDigitavel?: true
+    ativo?: true
+    criadoEm?: true
+  }
+
+  export type BoletoCountAggregateInputType = {
+    id?: true
+    nomeSacado?: true
+    idLote?: true
+    valor?: true
+    linhaDigitavel?: true
+    ativo?: true
+    criadoEm?: true
+    _all?: true
+  }
+
+  export type BoletoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Boleto to aggregate.
+     */
+    where?: BoletoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Boletos to fetch.
+     */
+    orderBy?: BoletoOrderByWithRelationInput | BoletoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BoletoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Boletos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Boletos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Boletos
+    **/
+    _count?: true | BoletoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BoletoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BoletoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BoletoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BoletoMaxAggregateInputType
+  }
+
+  export type GetBoletoAggregateType<T extends BoletoAggregateArgs> = {
+        [P in keyof T & keyof AggregateBoleto]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBoleto[P]>
+      : GetScalarType<T[P], AggregateBoleto[P]>
+  }
+
+
+
+
+  export type BoletoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BoletoWhereInput
+    orderBy?: BoletoOrderByWithAggregationInput | BoletoOrderByWithAggregationInput[]
+    by: BoletoScalarFieldEnum[] | BoletoScalarFieldEnum
+    having?: BoletoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BoletoCountAggregateInputType | true
+    _avg?: BoletoAvgAggregateInputType
+    _sum?: BoletoSumAggregateInputType
+    _min?: BoletoMinAggregateInputType
+    _max?: BoletoMaxAggregateInputType
+  }
+
+  export type BoletoGroupByOutputType = {
+    id: number
+    nomeSacado: string
+    idLote: number
+    valor: Decimal
+    linhaDigitavel: string
+    ativo: boolean
+    criadoEm: Date
+    _count: BoletoCountAggregateOutputType | null
+    _avg: BoletoAvgAggregateOutputType | null
+    _sum: BoletoSumAggregateOutputType | null
+    _min: BoletoMinAggregateOutputType | null
+    _max: BoletoMaxAggregateOutputType | null
+  }
+
+  type GetBoletoGroupByPayload<T extends BoletoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BoletoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BoletoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BoletoGroupByOutputType[P]>
+            : GetScalarType<T[P], BoletoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BoletoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nomeSacado?: boolean
+    idLote?: boolean
+    valor?: boolean
+    linhaDigitavel?: boolean
+    ativo?: boolean
+    criadoEm?: boolean
+    lote?: boolean | LoteDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["boleto"]>
+
+
+
+  export type BoletoSelectScalar = {
+    id?: boolean
+    nomeSacado?: boolean
+    idLote?: boolean
+    valor?: boolean
+    linhaDigitavel?: boolean
+    ativo?: boolean
+    criadoEm?: boolean
+  }
+
+  export type BoletoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nomeSacado" | "idLote" | "valor" | "linhaDigitavel" | "ativo" | "criadoEm", ExtArgs["result"]["boleto"]>
+  export type BoletoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lote?: boolean | LoteDefaultArgs<ExtArgs>
+  }
+
+  export type $BoletoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Boleto"
+    objects: {
+      lote: Prisma.$LotePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      nomeSacado: string
+      idLote: number
+      valor: Prisma.Decimal
+      linhaDigitavel: string
+      ativo: boolean
+      criadoEm: Date
+    }, ExtArgs["result"]["boleto"]>
+    composites: {}
+  }
+
+  type BoletoGetPayload<S extends boolean | null | undefined | BoletoDefaultArgs> = $Result.GetResult<Prisma.$BoletoPayload, S>
+
+  type BoletoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BoletoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BoletoCountAggregateInputType | true
+    }
+
+  export interface BoletoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Boleto'], meta: { name: 'Boleto' } }
+    /**
+     * Find zero or one Boleto that matches the filter.
+     * @param {BoletoFindUniqueArgs} args - Arguments to find a Boleto
+     * @example
+     * // Get one Boleto
+     * const boleto = await prisma.boleto.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BoletoFindUniqueArgs>(args: SelectSubset<T, BoletoFindUniqueArgs<ExtArgs>>): Prisma__BoletoClient<$Result.GetResult<Prisma.$BoletoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Boleto that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BoletoFindUniqueOrThrowArgs} args - Arguments to find a Boleto
+     * @example
+     * // Get one Boleto
+     * const boleto = await prisma.boleto.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BoletoFindUniqueOrThrowArgs>(args: SelectSubset<T, BoletoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BoletoClient<$Result.GetResult<Prisma.$BoletoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Boleto that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletoFindFirstArgs} args - Arguments to find a Boleto
+     * @example
+     * // Get one Boleto
+     * const boleto = await prisma.boleto.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BoletoFindFirstArgs>(args?: SelectSubset<T, BoletoFindFirstArgs<ExtArgs>>): Prisma__BoletoClient<$Result.GetResult<Prisma.$BoletoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Boleto that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletoFindFirstOrThrowArgs} args - Arguments to find a Boleto
+     * @example
+     * // Get one Boleto
+     * const boleto = await prisma.boleto.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BoletoFindFirstOrThrowArgs>(args?: SelectSubset<T, BoletoFindFirstOrThrowArgs<ExtArgs>>): Prisma__BoletoClient<$Result.GetResult<Prisma.$BoletoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Boletos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Boletos
+     * const boletos = await prisma.boleto.findMany()
+     * 
+     * // Get first 10 Boletos
+     * const boletos = await prisma.boleto.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const boletoWithIdOnly = await prisma.boleto.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BoletoFindManyArgs>(args?: SelectSubset<T, BoletoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BoletoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Boleto.
+     * @param {BoletoCreateArgs} args - Arguments to create a Boleto.
+     * @example
+     * // Create one Boleto
+     * const Boleto = await prisma.boleto.create({
+     *   data: {
+     *     // ... data to create a Boleto
+     *   }
+     * })
+     * 
+     */
+    create<T extends BoletoCreateArgs>(args: SelectSubset<T, BoletoCreateArgs<ExtArgs>>): Prisma__BoletoClient<$Result.GetResult<Prisma.$BoletoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Boletos.
+     * @param {BoletoCreateManyArgs} args - Arguments to create many Boletos.
+     * @example
+     * // Create many Boletos
+     * const boleto = await prisma.boleto.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BoletoCreateManyArgs>(args?: SelectSubset<T, BoletoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Boleto.
+     * @param {BoletoDeleteArgs} args - Arguments to delete one Boleto.
+     * @example
+     * // Delete one Boleto
+     * const Boleto = await prisma.boleto.delete({
+     *   where: {
+     *     // ... filter to delete one Boleto
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BoletoDeleteArgs>(args: SelectSubset<T, BoletoDeleteArgs<ExtArgs>>): Prisma__BoletoClient<$Result.GetResult<Prisma.$BoletoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Boleto.
+     * @param {BoletoUpdateArgs} args - Arguments to update one Boleto.
+     * @example
+     * // Update one Boleto
+     * const boleto = await prisma.boleto.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BoletoUpdateArgs>(args: SelectSubset<T, BoletoUpdateArgs<ExtArgs>>): Prisma__BoletoClient<$Result.GetResult<Prisma.$BoletoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Boletos.
+     * @param {BoletoDeleteManyArgs} args - Arguments to filter Boletos to delete.
+     * @example
+     * // Delete a few Boletos
+     * const { count } = await prisma.boleto.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BoletoDeleteManyArgs>(args?: SelectSubset<T, BoletoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Boletos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Boletos
+     * const boleto = await prisma.boleto.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BoletoUpdateManyArgs>(args: SelectSubset<T, BoletoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Boleto.
+     * @param {BoletoUpsertArgs} args - Arguments to update or create a Boleto.
+     * @example
+     * // Update or create a Boleto
+     * const boleto = await prisma.boleto.upsert({
+     *   create: {
+     *     // ... data to create a Boleto
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Boleto we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BoletoUpsertArgs>(args: SelectSubset<T, BoletoUpsertArgs<ExtArgs>>): Prisma__BoletoClient<$Result.GetResult<Prisma.$BoletoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Boletos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletoCountArgs} args - Arguments to filter Boletos to count.
+     * @example
+     * // Count the number of Boletos
+     * const count = await prisma.boleto.count({
+     *   where: {
+     *     // ... the filter for the Boletos we want to count
+     *   }
+     * })
+    **/
+    count<T extends BoletoCountArgs>(
+      args?: Subset<T, BoletoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BoletoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Boleto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BoletoAggregateArgs>(args: Subset<T, BoletoAggregateArgs>): Prisma.PrismaPromise<GetBoletoAggregateType<T>>
+
+    /**
+     * Group by Boleto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoletoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BoletoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BoletoGroupByArgs['orderBy'] }
+        : { orderBy?: BoletoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BoletoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBoletoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Boleto model
+   */
+  readonly fields: BoletoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Boleto.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BoletoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    lote<T extends LoteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LoteDefaultArgs<ExtArgs>>): Prisma__LoteClient<$Result.GetResult<Prisma.$LotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Boleto model
+   */
+  interface BoletoFieldRefs {
+    readonly id: FieldRef<"Boleto", 'Int'>
+    readonly nomeSacado: FieldRef<"Boleto", 'String'>
+    readonly idLote: FieldRef<"Boleto", 'Int'>
+    readonly valor: FieldRef<"Boleto", 'Decimal'>
+    readonly linhaDigitavel: FieldRef<"Boleto", 'String'>
+    readonly ativo: FieldRef<"Boleto", 'Boolean'>
+    readonly criadoEm: FieldRef<"Boleto", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Boleto findUnique
+   */
+  export type BoletoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Boleto
+     */
+    select?: BoletoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Boleto
+     */
+    omit?: BoletoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletoInclude<ExtArgs> | null
+    /**
+     * Filter, which Boleto to fetch.
+     */
+    where: BoletoWhereUniqueInput
+  }
+
+  /**
+   * Boleto findUniqueOrThrow
+   */
+  export type BoletoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Boleto
+     */
+    select?: BoletoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Boleto
+     */
+    omit?: BoletoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletoInclude<ExtArgs> | null
+    /**
+     * Filter, which Boleto to fetch.
+     */
+    where: BoletoWhereUniqueInput
+  }
+
+  /**
+   * Boleto findFirst
+   */
+  export type BoletoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Boleto
+     */
+    select?: BoletoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Boleto
+     */
+    omit?: BoletoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletoInclude<ExtArgs> | null
+    /**
+     * Filter, which Boleto to fetch.
+     */
+    where?: BoletoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Boletos to fetch.
+     */
+    orderBy?: BoletoOrderByWithRelationInput | BoletoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Boletos.
+     */
+    cursor?: BoletoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Boletos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Boletos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Boletos.
+     */
+    distinct?: BoletoScalarFieldEnum | BoletoScalarFieldEnum[]
+  }
+
+  /**
+   * Boleto findFirstOrThrow
+   */
+  export type BoletoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Boleto
+     */
+    select?: BoletoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Boleto
+     */
+    omit?: BoletoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletoInclude<ExtArgs> | null
+    /**
+     * Filter, which Boleto to fetch.
+     */
+    where?: BoletoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Boletos to fetch.
+     */
+    orderBy?: BoletoOrderByWithRelationInput | BoletoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Boletos.
+     */
+    cursor?: BoletoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Boletos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Boletos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Boletos.
+     */
+    distinct?: BoletoScalarFieldEnum | BoletoScalarFieldEnum[]
+  }
+
+  /**
+   * Boleto findMany
+   */
+  export type BoletoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Boleto
+     */
+    select?: BoletoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Boleto
+     */
+    omit?: BoletoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletoInclude<ExtArgs> | null
+    /**
+     * Filter, which Boletos to fetch.
+     */
+    where?: BoletoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Boletos to fetch.
+     */
+    orderBy?: BoletoOrderByWithRelationInput | BoletoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Boletos.
+     */
+    cursor?: BoletoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Boletos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Boletos.
+     */
+    skip?: number
+    distinct?: BoletoScalarFieldEnum | BoletoScalarFieldEnum[]
+  }
+
+  /**
+   * Boleto create
+   */
+  export type BoletoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Boleto
+     */
+    select?: BoletoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Boleto
+     */
+    omit?: BoletoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Boleto.
+     */
+    data: XOR<BoletoCreateInput, BoletoUncheckedCreateInput>
+  }
+
+  /**
+   * Boleto createMany
+   */
+  export type BoletoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Boletos.
+     */
+    data: BoletoCreateManyInput | BoletoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Boleto update
+   */
+  export type BoletoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Boleto
+     */
+    select?: BoletoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Boleto
+     */
+    omit?: BoletoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Boleto.
+     */
+    data: XOR<BoletoUpdateInput, BoletoUncheckedUpdateInput>
+    /**
+     * Choose, which Boleto to update.
+     */
+    where: BoletoWhereUniqueInput
+  }
+
+  /**
+   * Boleto updateMany
+   */
+  export type BoletoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Boletos.
+     */
+    data: XOR<BoletoUpdateManyMutationInput, BoletoUncheckedUpdateManyInput>
+    /**
+     * Filter which Boletos to update
+     */
+    where?: BoletoWhereInput
+    /**
+     * Limit how many Boletos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Boleto upsert
+   */
+  export type BoletoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Boleto
+     */
+    select?: BoletoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Boleto
+     */
+    omit?: BoletoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Boleto to update in case it exists.
+     */
+    where: BoletoWhereUniqueInput
+    /**
+     * In case the Boleto found by the `where` argument doesn't exist, create a new Boleto with this data.
+     */
+    create: XOR<BoletoCreateInput, BoletoUncheckedCreateInput>
+    /**
+     * In case the Boleto was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BoletoUpdateInput, BoletoUncheckedUpdateInput>
+  }
+
+  /**
+   * Boleto delete
+   */
+  export type BoletoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Boleto
+     */
+    select?: BoletoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Boleto
+     */
+    omit?: BoletoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletoInclude<ExtArgs> | null
+    /**
+     * Filter which Boleto to delete.
+     */
+    where: BoletoWhereUniqueInput
+  }
+
+  /**
+   * Boleto deleteMany
+   */
+  export type BoletoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Boletos to delete
+     */
+    where?: BoletoWhereInput
+    /**
+     * Limit how many Boletos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Boleto without action
+   */
+  export type BoletoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Boleto
+     */
+    select?: BoletoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Boleto
+     */
+    omit?: BoletoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoletoInclude<ExtArgs> | null
   }
 
 
@@ -1790,6 +2969,19 @@ export namespace Prisma {
   export type LoteScalarFieldEnum = (typeof LoteScalarFieldEnum)[keyof typeof LoteScalarFieldEnum]
 
 
+  export const BoletoScalarFieldEnum: {
+    id: 'id',
+    nomeSacado: 'nomeSacado',
+    idLote: 'idLote',
+    valor: 'valor',
+    linhaDigitavel: 'linhaDigitavel',
+    ativo: 'ativo',
+    criadoEm: 'criadoEm'
+  };
+
+  export type BoletoScalarFieldEnum = (typeof BoletoScalarFieldEnum)[keyof typeof BoletoScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -1803,6 +2995,14 @@ export namespace Prisma {
   };
 
   export type LoteOrderByRelevanceFieldEnum = (typeof LoteOrderByRelevanceFieldEnum)[keyof typeof LoteOrderByRelevanceFieldEnum]
+
+
+  export const BoletoOrderByRelevanceFieldEnum: {
+    nomeSacado: 'nomeSacado',
+    linhaDigitavel: 'linhaDigitavel'
+  };
+
+  export type BoletoOrderByRelevanceFieldEnum = (typeof BoletoOrderByRelevanceFieldEnum)[keyof typeof BoletoOrderByRelevanceFieldEnum]
 
 
   /**
@@ -1839,6 +3039,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -1856,6 +3063,7 @@ export namespace Prisma {
     nome?: StringFilter<"Lote"> | string
     ativo?: BoolFilter<"Lote"> | boolean
     criadoEm?: DateTimeFilter<"Lote"> | Date | string
+    Boleto?: BoletoListRelationFilter
   }
 
   export type LoteOrderByWithRelationInput = {
@@ -1863,6 +3071,7 @@ export namespace Prisma {
     nome?: SortOrder
     ativo?: SortOrder
     criadoEm?: SortOrder
+    Boleto?: BoletoOrderByRelationAggregateInput
     _relevance?: LoteOrderByRelevanceInput
   }
 
@@ -1874,6 +3083,7 @@ export namespace Prisma {
     NOT?: LoteWhereInput | LoteWhereInput[]
     ativo?: BoolFilter<"Lote"> | boolean
     criadoEm?: DateTimeFilter<"Lote"> | Date | string
+    Boleto?: BoletoListRelationFilter
   }, "id" | "nome">
 
   export type LoteOrderByWithAggregationInput = {
@@ -1898,10 +3108,79 @@ export namespace Prisma {
     criadoEm?: DateTimeWithAggregatesFilter<"Lote"> | Date | string
   }
 
+  export type BoletoWhereInput = {
+    AND?: BoletoWhereInput | BoletoWhereInput[]
+    OR?: BoletoWhereInput[]
+    NOT?: BoletoWhereInput | BoletoWhereInput[]
+    id?: IntFilter<"Boleto"> | number
+    nomeSacado?: StringFilter<"Boleto"> | string
+    idLote?: IntFilter<"Boleto"> | number
+    valor?: DecimalFilter<"Boleto"> | Decimal | DecimalJsLike | number | string
+    linhaDigitavel?: StringFilter<"Boleto"> | string
+    ativo?: BoolFilter<"Boleto"> | boolean
+    criadoEm?: DateTimeFilter<"Boleto"> | Date | string
+    lote?: XOR<LoteScalarRelationFilter, LoteWhereInput>
+  }
+
+  export type BoletoOrderByWithRelationInput = {
+    id?: SortOrder
+    nomeSacado?: SortOrder
+    idLote?: SortOrder
+    valor?: SortOrder
+    linhaDigitavel?: SortOrder
+    ativo?: SortOrder
+    criadoEm?: SortOrder
+    lote?: LoteOrderByWithRelationInput
+    _relevance?: BoletoOrderByRelevanceInput
+  }
+
+  export type BoletoWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: BoletoWhereInput | BoletoWhereInput[]
+    OR?: BoletoWhereInput[]
+    NOT?: BoletoWhereInput | BoletoWhereInput[]
+    nomeSacado?: StringFilter<"Boleto"> | string
+    idLote?: IntFilter<"Boleto"> | number
+    valor?: DecimalFilter<"Boleto"> | Decimal | DecimalJsLike | number | string
+    linhaDigitavel?: StringFilter<"Boleto"> | string
+    ativo?: BoolFilter<"Boleto"> | boolean
+    criadoEm?: DateTimeFilter<"Boleto"> | Date | string
+    lote?: XOR<LoteScalarRelationFilter, LoteWhereInput>
+  }, "id">
+
+  export type BoletoOrderByWithAggregationInput = {
+    id?: SortOrder
+    nomeSacado?: SortOrder
+    idLote?: SortOrder
+    valor?: SortOrder
+    linhaDigitavel?: SortOrder
+    ativo?: SortOrder
+    criadoEm?: SortOrder
+    _count?: BoletoCountOrderByAggregateInput
+    _avg?: BoletoAvgOrderByAggregateInput
+    _max?: BoletoMaxOrderByAggregateInput
+    _min?: BoletoMinOrderByAggregateInput
+    _sum?: BoletoSumOrderByAggregateInput
+  }
+
+  export type BoletoScalarWhereWithAggregatesInput = {
+    AND?: BoletoScalarWhereWithAggregatesInput | BoletoScalarWhereWithAggregatesInput[]
+    OR?: BoletoScalarWhereWithAggregatesInput[]
+    NOT?: BoletoScalarWhereWithAggregatesInput | BoletoScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Boleto"> | number
+    nomeSacado?: StringWithAggregatesFilter<"Boleto"> | string
+    idLote?: IntWithAggregatesFilter<"Boleto"> | number
+    valor?: DecimalWithAggregatesFilter<"Boleto"> | Decimal | DecimalJsLike | number | string
+    linhaDigitavel?: StringWithAggregatesFilter<"Boleto"> | string
+    ativo?: BoolWithAggregatesFilter<"Boleto"> | boolean
+    criadoEm?: DateTimeWithAggregatesFilter<"Boleto"> | Date | string
+  }
+
   export type LoteCreateInput = {
     nome: string
     ativo?: boolean
     criadoEm?: Date | string
+    Boleto?: BoletoCreateNestedManyWithoutLoteInput
   }
 
   export type LoteUncheckedCreateInput = {
@@ -1909,12 +3188,14 @@ export namespace Prisma {
     nome: string
     ativo?: boolean
     criadoEm?: Date | string
+    Boleto?: BoletoUncheckedCreateNestedManyWithoutLoteInput
   }
 
   export type LoteUpdateInput = {
     nome?: StringFieldUpdateOperationsInput | string
     ativo?: BoolFieldUpdateOperationsInput | boolean
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+    Boleto?: BoletoUpdateManyWithoutLoteNestedInput
   }
 
   export type LoteUncheckedUpdateInput = {
@@ -1922,6 +3203,7 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     ativo?: BoolFieldUpdateOperationsInput | boolean
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+    Boleto?: BoletoUncheckedUpdateManyWithoutLoteNestedInput
   }
 
   export type LoteCreateManyInput = {
@@ -1940,6 +3222,72 @@ export namespace Prisma {
   export type LoteUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoletoCreateInput = {
+    nomeSacado: string
+    valor: Decimal | DecimalJsLike | number | string
+    linhaDigitavel: string
+    ativo?: boolean
+    criadoEm?: Date | string
+    lote: LoteCreateNestedOneWithoutBoletoInput
+  }
+
+  export type BoletoUncheckedCreateInput = {
+    id?: number
+    nomeSacado: string
+    idLote: number
+    valor: Decimal | DecimalJsLike | number | string
+    linhaDigitavel: string
+    ativo?: boolean
+    criadoEm?: Date | string
+  }
+
+  export type BoletoUpdateInput = {
+    nomeSacado?: StringFieldUpdateOperationsInput | string
+    valor?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    linhaDigitavel?: StringFieldUpdateOperationsInput | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+    lote?: LoteUpdateOneRequiredWithoutBoletoNestedInput
+  }
+
+  export type BoletoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nomeSacado?: StringFieldUpdateOperationsInput | string
+    idLote?: IntFieldUpdateOperationsInput | number
+    valor?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    linhaDigitavel?: StringFieldUpdateOperationsInput | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoletoCreateManyInput = {
+    id?: number
+    nomeSacado: string
+    idLote: number
+    valor: Decimal | DecimalJsLike | number | string
+    linhaDigitavel: string
+    ativo?: boolean
+    criadoEm?: Date | string
+  }
+
+  export type BoletoUpdateManyMutationInput = {
+    nomeSacado?: StringFieldUpdateOperationsInput | string
+    valor?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    linhaDigitavel?: StringFieldUpdateOperationsInput | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoletoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nomeSacado?: StringFieldUpdateOperationsInput | string
+    idLote?: IntFieldUpdateOperationsInput | number
+    valor?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    linhaDigitavel?: StringFieldUpdateOperationsInput | string
     ativo?: BoolFieldUpdateOperationsInput | boolean
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -1984,6 +3332,16 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type BoletoListRelationFilter = {
+    every?: BoletoWhereInput
+    some?: BoletoWhereInput
+    none?: BoletoWhereInput
+  }
+
+  export type BoletoOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type LoteOrderByRelevanceInput = {
@@ -2077,6 +3435,100 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type LoteScalarRelationFilter = {
+    is?: LoteWhereInput
+    isNot?: LoteWhereInput
+  }
+
+  export type BoletoOrderByRelevanceInput = {
+    fields: BoletoOrderByRelevanceFieldEnum | BoletoOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type BoletoCountOrderByAggregateInput = {
+    id?: SortOrder
+    nomeSacado?: SortOrder
+    idLote?: SortOrder
+    valor?: SortOrder
+    linhaDigitavel?: SortOrder
+    ativo?: SortOrder
+    criadoEm?: SortOrder
+  }
+
+  export type BoletoAvgOrderByAggregateInput = {
+    id?: SortOrder
+    idLote?: SortOrder
+    valor?: SortOrder
+  }
+
+  export type BoletoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nomeSacado?: SortOrder
+    idLote?: SortOrder
+    valor?: SortOrder
+    linhaDigitavel?: SortOrder
+    ativo?: SortOrder
+    criadoEm?: SortOrder
+  }
+
+  export type BoletoMinOrderByAggregateInput = {
+    id?: SortOrder
+    nomeSacado?: SortOrder
+    idLote?: SortOrder
+    valor?: SortOrder
+    linhaDigitavel?: SortOrder
+    ativo?: SortOrder
+    criadoEm?: SortOrder
+  }
+
+  export type BoletoSumOrderByAggregateInput = {
+    id?: SortOrder
+    idLote?: SortOrder
+    valor?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type BoletoCreateNestedManyWithoutLoteInput = {
+    create?: XOR<BoletoCreateWithoutLoteInput, BoletoUncheckedCreateWithoutLoteInput> | BoletoCreateWithoutLoteInput[] | BoletoUncheckedCreateWithoutLoteInput[]
+    connectOrCreate?: BoletoCreateOrConnectWithoutLoteInput | BoletoCreateOrConnectWithoutLoteInput[]
+    createMany?: BoletoCreateManyLoteInputEnvelope
+    connect?: BoletoWhereUniqueInput | BoletoWhereUniqueInput[]
+  }
+
+  export type BoletoUncheckedCreateNestedManyWithoutLoteInput = {
+    create?: XOR<BoletoCreateWithoutLoteInput, BoletoUncheckedCreateWithoutLoteInput> | BoletoCreateWithoutLoteInput[] | BoletoUncheckedCreateWithoutLoteInput[]
+    connectOrCreate?: BoletoCreateOrConnectWithoutLoteInput | BoletoCreateOrConnectWithoutLoteInput[]
+    createMany?: BoletoCreateManyLoteInputEnvelope
+    connect?: BoletoWhereUniqueInput | BoletoWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -2089,12 +3541,62 @@ export namespace Prisma {
     set?: Date | string
   }
 
+  export type BoletoUpdateManyWithoutLoteNestedInput = {
+    create?: XOR<BoletoCreateWithoutLoteInput, BoletoUncheckedCreateWithoutLoteInput> | BoletoCreateWithoutLoteInput[] | BoletoUncheckedCreateWithoutLoteInput[]
+    connectOrCreate?: BoletoCreateOrConnectWithoutLoteInput | BoletoCreateOrConnectWithoutLoteInput[]
+    upsert?: BoletoUpsertWithWhereUniqueWithoutLoteInput | BoletoUpsertWithWhereUniqueWithoutLoteInput[]
+    createMany?: BoletoCreateManyLoteInputEnvelope
+    set?: BoletoWhereUniqueInput | BoletoWhereUniqueInput[]
+    disconnect?: BoletoWhereUniqueInput | BoletoWhereUniqueInput[]
+    delete?: BoletoWhereUniqueInput | BoletoWhereUniqueInput[]
+    connect?: BoletoWhereUniqueInput | BoletoWhereUniqueInput[]
+    update?: BoletoUpdateWithWhereUniqueWithoutLoteInput | BoletoUpdateWithWhereUniqueWithoutLoteInput[]
+    updateMany?: BoletoUpdateManyWithWhereWithoutLoteInput | BoletoUpdateManyWithWhereWithoutLoteInput[]
+    deleteMany?: BoletoScalarWhereInput | BoletoScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type BoletoUncheckedUpdateManyWithoutLoteNestedInput = {
+    create?: XOR<BoletoCreateWithoutLoteInput, BoletoUncheckedCreateWithoutLoteInput> | BoletoCreateWithoutLoteInput[] | BoletoUncheckedCreateWithoutLoteInput[]
+    connectOrCreate?: BoletoCreateOrConnectWithoutLoteInput | BoletoCreateOrConnectWithoutLoteInput[]
+    upsert?: BoletoUpsertWithWhereUniqueWithoutLoteInput | BoletoUpsertWithWhereUniqueWithoutLoteInput[]
+    createMany?: BoletoCreateManyLoteInputEnvelope
+    set?: BoletoWhereUniqueInput | BoletoWhereUniqueInput[]
+    disconnect?: BoletoWhereUniqueInput | BoletoWhereUniqueInput[]
+    delete?: BoletoWhereUniqueInput | BoletoWhereUniqueInput[]
+    connect?: BoletoWhereUniqueInput | BoletoWhereUniqueInput[]
+    update?: BoletoUpdateWithWhereUniqueWithoutLoteInput | BoletoUpdateWithWhereUniqueWithoutLoteInput[]
+    updateMany?: BoletoUpdateManyWithWhereWithoutLoteInput | BoletoUpdateManyWithWhereWithoutLoteInput[]
+    deleteMany?: BoletoScalarWhereInput | BoletoScalarWhereInput[]
+  }
+
+  export type LoteCreateNestedOneWithoutBoletoInput = {
+    create?: XOR<LoteCreateWithoutBoletoInput, LoteUncheckedCreateWithoutBoletoInput>
+    connectOrCreate?: LoteCreateOrConnectWithoutBoletoInput
+    connect?: LoteWhereUniqueInput
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type LoteUpdateOneRequiredWithoutBoletoNestedInput = {
+    create?: XOR<LoteCreateWithoutBoletoInput, LoteUncheckedCreateWithoutBoletoInput>
+    connectOrCreate?: LoteCreateOrConnectWithoutBoletoInput
+    upsert?: LoteUpsertWithoutBoletoInput
+    connect?: LoteWhereUniqueInput
+    update?: XOR<XOR<LoteUpdateToOneWithWhereWithoutBoletoInput, LoteUpdateWithoutBoletoInput>, LoteUncheckedUpdateWithoutBoletoInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -2204,6 +3706,166 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type BoletoCreateWithoutLoteInput = {
+    nomeSacado: string
+    valor: Decimal | DecimalJsLike | number | string
+    linhaDigitavel: string
+    ativo?: boolean
+    criadoEm?: Date | string
+  }
+
+  export type BoletoUncheckedCreateWithoutLoteInput = {
+    id?: number
+    nomeSacado: string
+    valor: Decimal | DecimalJsLike | number | string
+    linhaDigitavel: string
+    ativo?: boolean
+    criadoEm?: Date | string
+  }
+
+  export type BoletoCreateOrConnectWithoutLoteInput = {
+    where: BoletoWhereUniqueInput
+    create: XOR<BoletoCreateWithoutLoteInput, BoletoUncheckedCreateWithoutLoteInput>
+  }
+
+  export type BoletoCreateManyLoteInputEnvelope = {
+    data: BoletoCreateManyLoteInput | BoletoCreateManyLoteInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BoletoUpsertWithWhereUniqueWithoutLoteInput = {
+    where: BoletoWhereUniqueInput
+    update: XOR<BoletoUpdateWithoutLoteInput, BoletoUncheckedUpdateWithoutLoteInput>
+    create: XOR<BoletoCreateWithoutLoteInput, BoletoUncheckedCreateWithoutLoteInput>
+  }
+
+  export type BoletoUpdateWithWhereUniqueWithoutLoteInput = {
+    where: BoletoWhereUniqueInput
+    data: XOR<BoletoUpdateWithoutLoteInput, BoletoUncheckedUpdateWithoutLoteInput>
+  }
+
+  export type BoletoUpdateManyWithWhereWithoutLoteInput = {
+    where: BoletoScalarWhereInput
+    data: XOR<BoletoUpdateManyMutationInput, BoletoUncheckedUpdateManyWithoutLoteInput>
+  }
+
+  export type BoletoScalarWhereInput = {
+    AND?: BoletoScalarWhereInput | BoletoScalarWhereInput[]
+    OR?: BoletoScalarWhereInput[]
+    NOT?: BoletoScalarWhereInput | BoletoScalarWhereInput[]
+    id?: IntFilter<"Boleto"> | number
+    nomeSacado?: StringFilter<"Boleto"> | string
+    idLote?: IntFilter<"Boleto"> | number
+    valor?: DecimalFilter<"Boleto"> | Decimal | DecimalJsLike | number | string
+    linhaDigitavel?: StringFilter<"Boleto"> | string
+    ativo?: BoolFilter<"Boleto"> | boolean
+    criadoEm?: DateTimeFilter<"Boleto"> | Date | string
+  }
+
+  export type LoteCreateWithoutBoletoInput = {
+    nome: string
+    ativo?: boolean
+    criadoEm?: Date | string
+  }
+
+  export type LoteUncheckedCreateWithoutBoletoInput = {
+    id?: number
+    nome: string
+    ativo?: boolean
+    criadoEm?: Date | string
+  }
+
+  export type LoteCreateOrConnectWithoutBoletoInput = {
+    where: LoteWhereUniqueInput
+    create: XOR<LoteCreateWithoutBoletoInput, LoteUncheckedCreateWithoutBoletoInput>
+  }
+
+  export type LoteUpsertWithoutBoletoInput = {
+    update: XOR<LoteUpdateWithoutBoletoInput, LoteUncheckedUpdateWithoutBoletoInput>
+    create: XOR<LoteCreateWithoutBoletoInput, LoteUncheckedCreateWithoutBoletoInput>
+    where?: LoteWhereInput
+  }
+
+  export type LoteUpdateToOneWithWhereWithoutBoletoInput = {
+    where?: LoteWhereInput
+    data: XOR<LoteUpdateWithoutBoletoInput, LoteUncheckedUpdateWithoutBoletoInput>
+  }
+
+  export type LoteUpdateWithoutBoletoInput = {
+    nome?: StringFieldUpdateOperationsInput | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoteUncheckedUpdateWithoutBoletoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nome?: StringFieldUpdateOperationsInput | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoletoCreateManyLoteInput = {
+    id?: number
+    nomeSacado: string
+    valor: Decimal | DecimalJsLike | number | string
+    linhaDigitavel: string
+    ativo?: boolean
+    criadoEm?: Date | string
+  }
+
+  export type BoletoUpdateWithoutLoteInput = {
+    nomeSacado?: StringFieldUpdateOperationsInput | string
+    valor?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    linhaDigitavel?: StringFieldUpdateOperationsInput | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoletoUncheckedUpdateWithoutLoteInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nomeSacado?: StringFieldUpdateOperationsInput | string
+    valor?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    linhaDigitavel?: StringFieldUpdateOperationsInput | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoletoUncheckedUpdateManyWithoutLoteInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nomeSacado?: StringFieldUpdateOperationsInput | string
+    valor?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    linhaDigitavel?: StringFieldUpdateOperationsInput | string
+    ativo?: BoolFieldUpdateOperationsInput | boolean
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
