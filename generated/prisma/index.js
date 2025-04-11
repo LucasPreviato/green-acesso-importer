@@ -165,11 +165,12 @@ const config = {
     "db"
   ],
   "activeProvider": "mysql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "mysql://root:root@localhost:3307/green_acesso?schema=public"
+        "value": null
       }
     }
   },
