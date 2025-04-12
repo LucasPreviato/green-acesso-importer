@@ -3,6 +3,7 @@ import { BoletoRepository } from '../../domain/repositories/boleto.repository';
 import { LoteRepository } from '../../domain/repositories/lote.repository';
 import { CreateBoletoDto } from '../dto/create-boleto.dto';
 
+
 @Injectable()
 export class ImportBoletosUseCase {
   constructor(
