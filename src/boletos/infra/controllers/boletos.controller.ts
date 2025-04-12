@@ -5,11 +5,14 @@ import {
   UseInterceptors,
   HttpException,
   HttpStatus,
+  Query,
+  Get,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { parse } from 'csv-parse/sync';
 import { Express } from 'express';
 import { SplitBoletosPdfUseCase } from 'src/boletos/application/use-cases/split-boletos-pdf.use-case';
+import { ListBoletosUseCase } from 'src/boletos/application/use-cases/list-boletos.use-case';
 import { ImportBoletosUseCase } from '../../application/use-cases/import-boletos.use-case';
 import { Result, Left, Right } from '../../../shared/result';
 
@@ -18,6 +21,7 @@ export class BoletosController {
   constructor(
     private readonly importBoletosUseCase: ImportBoletosUseCase,
     private readonly splitBoletosPdfUseCase: SplitBoletosPdfUseCase,
+    private readonly listBoletosUseCase: ListBoletosUseCase,
   ) {}
 
   @Post('upload-csv')
@@ -79,5 +83,32 @@ export class BoletosController {
       'Erro inesperado',
       HttpStatus.INTERNAL_SERVER_ERROR,
     );
+  }
+
+  @Get()
+  async listBoletos(
+    @Query('nome') nome?: string,
+    @Query('id_lote') id_lote?: string,
+    @Query('valor_inicial') valor_inicial?: string,
+    @Query('valor_final') valor_final?: string,
+    @Query('relatorio') relatorio?: string, // ainda não usamos, mas vamos usar na próxima
+  ) {
+    const filters = {
+      nome,
+      id_lote: id_lote ? parseInt(id_lote) : undefined,
+      valor_inicial: valor_inicial ? parseFloat(valor_inicial) : undefined,
+      valor_final: valor_final ? parseFloat(valor_final) : undefined,
+    };
+
+    const result = await this.listBoletosUseCase.execute(filters);
+
+    if (result instanceof Left) {
+      throw new HttpException({ error: result.value }, HttpStatus.BAD_REQUEST);
+    }
+
+    return {
+      success: true,
+      data: result.value,
+    };
   }
 }
