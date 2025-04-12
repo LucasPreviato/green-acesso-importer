@@ -1,11 +1,7 @@
-export interface BoletoRepository {
-    create(data: {
-      nomeSacado: string;
-      idLote: number;
-      valor: number;
-      linhaDigitavel: string;
-    }): Promise<number>; // ← retorna ID do boleto criado
-  }
+import { CreateBoletoInput } from "../use-cases/create-boleto.input";
 
-  
+export interface BoletoRepository {
+    create(data: CreateBoletoInput): Promise<number>; 
+}
+
   
