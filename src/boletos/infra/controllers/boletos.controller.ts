@@ -3,10 +3,14 @@ import {
     Post,
     UploadedFile,
     UseInterceptors,
+    HttpException,
+    HttpStatus,
   } from '@nestjs/common';
   import { FileInterceptor } from '@nestjs/platform-express';
   import { ImportBoletosUseCase } from '../../application/use-cases/import-boletos.use-case';
   import { parse } from 'csv-parse/sync';
+  import { Express } from 'express';
+  import { Result, Left, Right } from '../../../shared/result';
   
   @Controller('boletos')
   export class BoletosController {
@@ -31,8 +35,21 @@ import {
         linha_digitavel: row.linha_digitavel,
       }));
   
-      await this.importBoletosUseCase.execute(boletos);
-      return { success: true, total: boletos.length };
+      const result: Result<string, { total: number }> =
+        await this.importBoletosUseCase.execute(boletos);
+  
+      if (result instanceof Left) {
+        return new HttpException({ error: result.value }, HttpStatus.BAD_REQUEST);
+      }
+  
+      if (result instanceof Right) {
+        return {
+          success: true,
+          total: result.value.total,
+        };
+      }
+  
+      throw new HttpException('Erro inesperado', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
   
