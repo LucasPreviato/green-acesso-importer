@@ -31,7 +31,8 @@ export class SplitBoletosPdfUseCase {
       );
     }
 
-    const outputDir = join(__dirname, '../../../../tmp/boletos');
+    // const outputDir = join(__dirname, '../../../../tmp/boletos');
+    const outputDir = join(process.cwd(), 'tmp/boletos');
     if (!existsSync(outputDir)) mkdirSync(outputDir, { recursive: true });
 
     for (let i = 0; i < boletos.length; i++) {

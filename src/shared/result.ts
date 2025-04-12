@@ -40,8 +40,9 @@ export class Left<L> {
   
   export type Result<L, R> = Left<L> | Right<R>;
   
-  export const left = <L>(l: L): Result<L, never> => new Left(l);
-  export const right = <R>(r: R): Result<never, R> => new Right(r);
+  export const left = <L, R = never>(l: L): Result<L, R> => new Left<L>(l);
+  export const right = <R, L = never>(r: R): Result<L, R> => new Right<R>(r);
+  
   
   export namespace Result {
     export function combine<L, R>(results: Result<L, R>[]): Result<L, R[]> {

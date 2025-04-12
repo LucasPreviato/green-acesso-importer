@@ -30,8 +30,7 @@ export class BoletoPrismaRepository implements BoletoRepository {
 
     if (filters.nome) {
       where.nomeSacado = {
-        contains: filters.nome,
-        mode: 'insensitive',
+        contains: filters.nome.toLowerCase(),
       };
     }
 

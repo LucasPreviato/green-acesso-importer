@@ -4,7 +4,7 @@ export class LinhaDigitavel {
   private constructor(private readonly value: string) {}
 
   static create(value: string): Result<Error, LinhaDigitavel> {
-    if (!/^\d{47}$/.test(value)) {
+    if (!/^\d{18,47}$/.test(value)) {
       return left(new Error('Linha digitável inválida (esperado 47 dígitos)'));
     }
 

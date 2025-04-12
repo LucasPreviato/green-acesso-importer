@@ -17,6 +17,6 @@ import { LotePrismaRepository } from './repositories/lote-prisma.repository';
       useClass: LotePrismaRepository,
     },
   ],
-  exports: ['BoletoRepository', 'LoteRepository'],
+  exports: ['BoletoRepository', 'LoteRepository', PrismaService],
 })
 export class PrismaModule {}

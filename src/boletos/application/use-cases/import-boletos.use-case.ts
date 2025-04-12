@@ -2,11 +2,14 @@ import { Inject, Injectable } from '@nestjs/common';
 import { BoletoRepository } from '../../domain/repositories/boleto.repository';
 import { LoteRepository } from '../../domain/repositories/lote.repository';
 import { CreateBoletoDto } from '../dto/create-boleto.dto';
-import { LinhaDigitavel } from '../../domain/value-objects/linha-digitavel.vo';
+import { Nome } from '../../domain/value-objects/nome.vo';
 import { Valor } from '../../domain/value-objects/valor.vo';
-import { Result, left, right, Left } from '../../../shared/result';
+import { LinhaDigitavel } from '../../domain/value-objects/linha-digitavel.vo';
+import { Status, StatusBoleto } from '../../domain/value-objects/status.vo';
+import { Lote } from '../../domain/value-objects/lote.vo';
+import { BoletoAggregate } from '../../domain/aggregates/boleto.aggregate';
+import { Result, Right, left, right } from '../../../shared/result';
 import { logger } from '../../../shared/logger';
-import { StatusBoleto, Status } from 'src/boletos/domain/value-objects/status.vo';
 
 @Injectable()
 export class ImportBoletosUseCase {
@@ -18,52 +21,116 @@ export class ImportBoletosUseCase {
     private readonly loteRepo: LoteRepository,
   ) {}
 
-  async execute(data: CreateBoletoDto[]): Promise<Result<string, { total: number }>> {
+  async execute(
+    data: CreateBoletoDto[],
+  ): Promise<Result<string, { total: number }>> {
     logger.info(`Iniciando importação de ${data.length} boletos`);
 
     let count = 0;
 
     for (const boleto of data) {
-      const loteNome = `00${boleto.unidade.toString().padStart(2, '0')}`;
-      const lote = await this.loteRepo.findByNome(loteNome);
+      const boletoResult: Result<Error, BoletoAggregate> =
+        await this.validateAndCreateBoleto(boleto);
 
-      if (!lote) {
-        logger.warn(`Lote '${loteNome}' não encontrado para sacado '${boleto.nome}'`);
-        return left(`Lote ${loteNome} não encontrado`);
+      if (boletoResult.isLeft()) {
+        logger.warn(`Erro ao validar boleto para ${boleto.nome}`);
+        const err = boletoResult.value;
+        return left(
+            err instanceof Error ? err.message : 'Erro desconhecido ao validar boleto',
+          );
       }
 
-      const linhaDigitavelResult = LinhaDigitavel.create(boleto.linha_digitavel);
-      if (linhaDigitavelResult instanceof Left) {
-        const err = linhaDigitavelResult.value;
-        logger.warn(`Linha digitável inválida para ${boleto.nome}: ${boleto.linha_digitavel}`);
-        return left(err instanceof Error ? err.message : 'Linha digitável inválida');
-      }
-
-      const valorResult = Valor.create(boleto.valor);
-      if (valorResult instanceof Left) {
-        const err = valorResult.value;
-        logger.warn(`Valor inválido para ${boleto.nome}: ${boleto.valor}`);
-        return left(err instanceof Error ? err.message : 'Valor inválido');
-      }
-
-      const statusResult = Status.create(StatusBoleto.ATIVO);
-    if (statusResult instanceof Left) {
-    return left('Erro ao definir status inicial');
-}
+      const boletoAggregate : BoletoAggregate = (boletoResult as Right<BoletoAggregate>).value;
 
       await this.boletoRepo.create({
-        nomeSacado: boleto.nome,
-        idLote: lote.id,
-        valor: valorResult.value.toNumber(),
-        linhaDigitavel: linhaDigitavelResult.value.toString(),
-        status: statusResult.value.value,
+        nomeSacado: boletoAggregate.nomeSacado.value,
+        idLote: boletoAggregate.lote.id,
+        valor: boletoAggregate.valor.toNumber(),
+        linhaDigitavel: boletoAggregate.linhaDigitavel.toString(),
+        status: boletoAggregate.status.value,
       });
 
-      logger.debug(`Boleto criado para ${boleto.nome} no lote ${loteNome}`);
+      logger.debug(
+        {
+          nome: boletoAggregate.nomeSacado.value,
+          lote: boletoAggregate.lote.nome,
+        },
+        'Boleto criado com sucesso',
+      );
+
       count++;
     }
 
-    logger.info({ total: count }, 'Importação de boletos finalizada com sucesso');
+    logger.info(
+      { total: count },
+      'Importação de boletos finalizada com sucesso',
+    );
     return right({ total: count });
+  }
+
+  private async validateAndCreateBoleto(
+    dto: CreateBoletoDto,
+  ): Promise<Result<Error, BoletoAggregate>> {
+    const nomeResult: Result<Error, Nome> = Nome.create(dto.nome);
+    if (nomeResult.isLeft()) {
+      const err = nomeResult.value;
+      return left(err instanceof Error ? err : new Error('Erro ao criar Nome'));
+    }
+    const nome: Nome = (nomeResult as Right<Nome>).value;
+
+    const linhaDigitavelResult: Result<Error, LinhaDigitavel> =
+      LinhaDigitavel.create(dto.linha_digitavel);
+    if (linhaDigitavelResult.isLeft()) {
+      const err = linhaDigitavelResult.value;
+      return left(
+        err instanceof Error ? err : new Error('Erro ao criar Linha Digitável'),
+      );
+    }
+    const linhaDigitavel: LinhaDigitavel = (
+      linhaDigitavelResult as Right<LinhaDigitavel>
+    ).value;
+
+    const valorResult: Result<Error, Valor> = Valor.create(dto.valor);
+
+    if (valorResult.isLeft()) {
+      const err = valorResult.value;
+      return left(
+        err instanceof Error ? err : new Error('Erro ao criar Valor'),
+      );
+    }
+    const valor: Valor = (valorResult as Right<Valor>).value;
+
+    const statusResult: Result<Error, Status> = Status.create(
+      StatusBoleto.ATIVO,
+    );
+
+    if (statusResult.isLeft()) {
+      const err = statusResult.value;
+      return left(
+        err instanceof Error ? err : new Error('Erro ao criar Status'),
+      );
+    }
+
+    const status: Status = (statusResult as Right<Status>).value;
+
+    const loteNome = `00${dto.unidade.toString().padStart(2, '0')}`;
+    const lote = await this.loteRepo.findByNome(loteNome);
+    if (!lote) {
+      return left(new Error(`Lote ${loteNome} não encontrado`));
+    }
+
+    const loteResult: Result<Error, Lote> = Lote.create(lote.id, lote.nome);
+
+    if (loteResult.isLeft()) {
+      const err = loteResult.value;
+      return left(err instanceof Error ? err : new Error('Erro ao criar Lote'));
+    }
+
+    const loteVO: Lote = (loteResult as Right<Lote>).value;
+
+    const aggregateResult: Result<Error, BoletoAggregate> =
+      BoletoAggregate.create(nome, loteVO, valor, linhaDigitavel, status);
+
+    return aggregateResult;
   }
 }
