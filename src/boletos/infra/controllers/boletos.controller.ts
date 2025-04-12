@@ -15,6 +15,9 @@ import { SplitBoletosPdfUseCase } from 'src/boletos/application/use-cases/split-
 import { ListBoletosUseCase } from 'src/boletos/application/use-cases/list-boletos.use-case';
 import { ImportBoletosUseCase } from '../../application/use-cases/import-boletos.use-case';
 import { Result, Left, Right } from '../../../shared/result';
+import { GenerateBoletosReportUseCase } from 'src/boletos/application/use-cases/generate-boletos-report.use-case';
+import { ValidateFileExtensionInterceptor } from 'src/shared/interceptors/validate-file-extension.interceptor';
+import { ValidateMimeTypeInterceptor } from 'src/shared/interceptors/validate-mime-type.interceptor';
 
 @Controller('boletos')
 export class BoletosController {
@@ -22,10 +25,15 @@ export class BoletosController {
     private readonly importBoletosUseCase: ImportBoletosUseCase,
     private readonly splitBoletosPdfUseCase: SplitBoletosPdfUseCase,
     private readonly listBoletosUseCase: ListBoletosUseCase,
+    private readonly generateBoletosReportUseCase: GenerateBoletosReportUseCase,
   ) {}
 
   @Post('upload-csv')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(
+    FileInterceptor('file'),
+    new ValidateFileExtensionInterceptor(['csv']),
+    new ValidateMimeTypeInterceptor(['text/csv', 'application/vnd.ms-excel']),
+  )
   async uploadCsv(@UploadedFile() file: Express.Multer.File) {
     const csvText = file.buffer.toString('utf-8');
 
@@ -64,7 +72,11 @@ export class BoletosController {
   }
 
   @Post('upload-pdf')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(
+    FileInterceptor('file'),
+    new ValidateFileExtensionInterceptor(['pdf']),
+    new ValidateMimeTypeInterceptor(['application/pdf']),
+  )
   async uploadPdf(@UploadedFile() file: Express.Multer.File) {
     const result = await this.splitBoletosPdfUseCase.execute(file.buffer);
 
@@ -91,7 +103,7 @@ export class BoletosController {
     @Query('id_lote') id_lote?: string,
     @Query('valor_inicial') valor_inicial?: string,
     @Query('valor_final') valor_final?: string,
-    @Query('relatorio') relatorio?: string, // ainda não usamos, mas vamos usar na próxima
+    @Query('relatorio') relatorio?: string,
   ) {
     const filters = {
       nome,
@@ -99,6 +111,19 @@ export class BoletosController {
       valor_inicial: valor_inicial ? parseFloat(valor_inicial) : undefined,
       valor_final: valor_final ? parseFloat(valor_final) : undefined,
     };
+
+    if (relatorio === '1') {
+      const result = await this.generateBoletosReportUseCase.execute(filters);
+
+      if (result instanceof Left) {
+        throw new HttpException(
+          { error: result.value },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      return { base64: result.value.base64 };
+    }
 
     const result = await this.listBoletosUseCase.execute(filters);
 

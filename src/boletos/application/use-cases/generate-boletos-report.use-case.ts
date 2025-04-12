@@ -6,6 +6,7 @@ import {
 } from '../../domain/repositories/boleto.repository';
 import { Result, left, right } from '../../../shared/result';
 import { Buffer } from 'buffer';
+import { logger } from '../../../shared/logger';
 
 @Injectable()
 export class GenerateBoletosReportUseCase {
@@ -20,6 +21,10 @@ export class GenerateBoletosReportUseCase {
     try {
       const boletos = await this.boletoRepo.findMany(filters);
 
+      logger.info(
+        `Gerando relatório de boletos com ${boletos.length} registros`,
+      );
+
       const doc = new PDFDocument({ size: 'A4', margin: 40 });
       const chunks: Buffer[] = [];
 
@@ -30,7 +35,9 @@ export class GenerateBoletosReportUseCase {
       doc.moveDown();
 
       doc.fontSize(10);
-      doc.text('ID | Nome Sacado | ID Lote | Valor | Linha Digitável', { underline: true });
+      doc.text('ID | Nome Sacado | ID Lote | Valor | Linha Digitável', {
+        underline: true,
+      });
 
       boletos.forEach((boleto) => {
         doc.text(
@@ -38,6 +45,7 @@ export class GenerateBoletosReportUseCase {
             2,
           )} | ${boleto.linhaDigitavel}`,
         );
+        logger.debug(`Boleto ${boleto.id} incluído no relatório`);
       });
 
       doc.end();
@@ -46,11 +54,14 @@ export class GenerateBoletosReportUseCase {
         doc.on('end', () => {
           const buffer = Buffer.concat(chunks);
           const base64 = buffer.toString('base64');
+          logger.info(
+            `Relatório gerado com sucesso (${boletos.length} boletos)`,
+          );
           resolve(right({ base64 }));
         });
       });
     } catch (error) {
-      console.error('[GenerateBoletosReportUseCase] Erro:', error);
+      logger.error({ err: error }, 'Erro ao gerar relatório de boletos');
       return left('Erro ao gerar relatório');
     }
   }
