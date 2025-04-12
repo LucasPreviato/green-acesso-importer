@@ -30,12 +30,20 @@ model Boleto {
   idLote         Int      @map("id_lote")
   valor          Decimal  @db.Decimal(10, 2)
   linhaDigitavel String   @map("linha_digitavel")
+  status          StatusBoleto @default(ATIVO)
   ativo          Boolean  @default(true)
   criadoEm       DateTime @default(now()) @map("criado_em")
 
   lote           Lote     @relation(fields: [idLote], references: [id])
 
   @@map("boletos")
+}
+
+enum StatusBoleto {
+  ATIVO
+  DESATIVADO
+  PAGO
+  CANCELADO
 }
 
 

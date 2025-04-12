@@ -7,6 +7,7 @@ import {
 import { Result, left, right } from '../../../shared/result';
 import { Buffer } from 'buffer';
 import { logger } from '../../../shared/logger';
+import { Data } from '../../domain/value-objects/data.vo';
 
 @Injectable()
 export class GenerateBoletosReportUseCase {
@@ -35,15 +36,20 @@ export class GenerateBoletosReportUseCase {
       doc.moveDown();
 
       doc.fontSize(10);
-      doc.text('ID | Nome Sacado | ID Lote | Valor | Linha Digitável', {
+      doc.text('ID | Nome Sacado | ID Lote | Valor | Linha Digitável | Data de Criação', {
         underline: true,
       });
 
       boletos.forEach((boleto) => {
+        const dataCriacao = Data.create(boleto.criadoEm);
+        const dataStr = dataCriacao.isRight()
+          ? dataCriacao.value.formatPtBr()
+          : '-';
+
         doc.text(
           `${boleto.id} | ${boleto.nomeSacado} | ${boleto.idLote} | R$ ${boleto.valor.toFixed(
             2,
-          )} | ${boleto.linhaDigitavel}`,
+          )} | ${boleto.linhaDigitavel} | ${dataStr}`,
         );
         logger.debug(`Boleto ${boleto.id} incluído no relatório`);
       });
